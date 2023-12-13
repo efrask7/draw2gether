@@ -71,7 +71,7 @@ function Canva() {
       <canvas
         width={800}
         height={600}
-        className="border rounded bg-white"
+        className={`border rounded bg-white ${tool !== Tool.mouse && "cursor-none"}`}
         ref={canva as LegacyRef<HTMLCanvasElement>}
         onMouseMove={handleMouseMove}
         onPointerUp={handlePointerUp}
@@ -88,13 +88,14 @@ function Canva() {
     </div>
     
     <div
-      className="absolute border border-slate-950 opacity-80 bg-transparent pointer-events-none"
+      className="absolute opacity-80 bg-transparent pointer-events-none"
       style={{
         left: pos.client.x,
         top: pos.client.y,
         width: settings.size + "px",
         height: settings.size + "px",
-        display: getMouseToolDisplay() ? "inline" : "none"
+        display: getMouseToolDisplay() ? "inline" : "none",
+        border: `1px solid ${settings.color}`
       }}
     />
     </>
