@@ -6,7 +6,7 @@ import { UseCanva } from "@/context/CanvaContext"
 
 function ToolBar() {
 
-  const { tool, selectTool } = UseCanva()
+  const { selectTool } = UseCanva()
 
   return (
     <div className="flex gap-2 items-center">
