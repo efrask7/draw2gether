@@ -1,9 +1,9 @@
 "use client"
 import { Tool } from "@/types/tool"
-import { IconType } from "react-icons"
 import { TbPointerFilled } from "react-icons/tb"
 import { FaPencil, FaEraser, FaCircle } from "react-icons/fa6"
 import { PiLineSegmentBold, PiRectangleFill } from "react-icons/pi"
+import { UseCanva } from "@/context/CanvaContext"
 
 type TButton = {
   action: () => void
@@ -19,11 +19,16 @@ const toolIcon: Readonly<{ [key in Tool]: JSX.Element }> = {
   [Tool.circle]: <FaCircle/>
 }
 
-function UseButton({ action, tool }: TButton) { 
+const useRing = "ring-2 ring-inset ring-emerald-500 text-emerald-400"
+
+function UseButton({ action, tool: btnTool }: TButton) { 
+
+  const { tool } = UseCanva()
+
   return (
     <button
       onClick={() => action()}
-      className="
+      className={`
         text-gray-200 
         p-3 
         text-xl 
@@ -31,11 +36,12 @@ function UseButton({ action, tool }: TButton) {
         hover:bg-indigo-800 
         hover:text-gray-400
         active:bg-indigo-900
-      "
-      title={tool}
+        ${tool === btnTool && useRing}
+      `}
+      title={btnTool}
     >
       {
-        toolIcon[tool]
+        toolIcon[btnTool]
       }
     </button>
   )
