@@ -7,12 +7,14 @@ const CanvaContext = createContext<TCanvaContext>({
   settings: {
     size: 5,
     color: "#000000",
-    hover: false
+    hover: false,
+    pointerDown: false
   },
   updateSettings: () => {},
   pos: {
     canva: {x: 0, y:0},
-    client: {x: 0, y:0}
+    client: {x: 0, y:0},
+    holding: {x: 0, y:0}
   },
   updatePos: () => {},
   tool: Tool.mouse,
@@ -31,12 +33,14 @@ function CanvaProvider({ children }: PropsWithChildren) {
   const [canvaSettings, setCanvaSettings] = useState<TCanvaSettings>({
     size: 5,
     color: "#000000",
-    hover: false
+    hover: false,
+    pointerDown: false
   })
 
   const [pos, setPos] = useState({
     canva: { x: 0, y: 0 },
-    client: { x: 0, y: 0 }
+    client: { x: 0, y: 0 },
+    holding: { x: 0, y: 0}
   })
 
   const [toolSelected, setToolSelected] = useState<Tool>(Tool.mouse)
@@ -67,7 +71,8 @@ function CanvaProvider({ children }: PropsWithChildren) {
         updateSettings,
         pos: {
           canva: pos.canva,
-          client: pos.client
+          client: pos.client,
+          holding: pos.holding
         },
         updatePos,
         tool: toolSelected,

@@ -12,9 +12,11 @@ type TCanvaContext = {
   updateSettings: (setting: keyof TCanvaSettings, value: any) => void
   pos: {
     canva: TPos,
-    client: TPos
+    client: TPos,
+    holding: TPos
   }
   updatePos: (pos: TPos, type: keyof TCanvaContext["pos"]) => void
   tool: Tool,
   selectTool: (tool: Tool) => void
+
 }
