@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { SocketProvider } from '@/context/SocketContext'
 
 export const metadata: Metadata = {
   title: 'Draw2Gether',
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         className='bg-gray-950 h-full'
       >
-        {children}
+        <SocketProvider>
+          {children}
+        </SocketProvider>
       </body>
 
     </html>

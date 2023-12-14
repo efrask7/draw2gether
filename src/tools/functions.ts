@@ -2,21 +2,21 @@ import { Tool } from "@/types/tool";
 import { IDrawProps, drawCircle, drawLine, drawPoint, drawRect } from "./draw";
 import { drawGhostCircle, drawGhostLine, drawGhostRect } from "./drawGhost";
 
-const toolWithoutGhost: Readonly<Tool[]> = [
+const toolWithoutGhost: Tool[] = [
   Tool.pencil,
   Tool.eraser
 ]
 
-const toolFunctions: Readonly<{ [key in Tool]: (props: IDrawProps) => void }> = {
-  [Tool.mouse]: () => {},
-  [Tool.pencil]: drawPoint,
-  [Tool.eraser]: drawPoint,
-  [Tool.line]: drawLine,
-  [Tool.rect]: drawRect,
-  [Tool.circle]: drawCircle
+const toolFunctions: { [key in Tool]: (props: IDrawProps) => string } = {
+  [Tool.mouse]: () => "",
+  [Tool.pencil]: (props) => { drawPoint(props); return "canvas:draw"},
+  [Tool.eraser]: (props) => { drawPoint(props); return "canvas:draw"},
+  [Tool.line]: (props) => { drawLine(props); return "canvas:draw_line"},
+  [Tool.rect]: (props) => { drawRect(props); return "canvas:draw_rect"},
+  [Tool.circle]: (props) => { drawCircle(props); return "canvas:draw_circle"}
 }
 
-const toolGhostFunctions: Readonly<{ [key in Tool]: (props: IDrawProps) => void }> = {
+const toolGhostFunctions: { [key in Tool]: (props: IDrawProps) => void } = {
   [Tool.mouse]: () => {},
   [Tool.pencil]: () => {},
   [Tool.eraser]: () => {},

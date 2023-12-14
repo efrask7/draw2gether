@@ -1,6 +1,8 @@
 "use client"
 
 import { UseCanva } from "@/context/CanvaContext"
+import { useSocket } from "@/context/SocketContext"
+import UseEvents from "@/events/SocketEvents"
 import { resetGhostCanva } from "@/tools/drawGhost"
 import { toolFunctions, toolGhostFunctions, toolWithoutGhost } from "@/tools/functions"
 import { Tool } from "@/types/tool"
@@ -9,6 +11,7 @@ import { LegacyRef, MouseEvent, RefObject, useEffect, useRef } from "react"
 function Canva() {
   
   const { canva, settings, updatePos, updateSettings, pos, tool } = UseCanva()
+  const { socket } = useSocket()
 
   const ghostCanva = useRef<HTMLCanvasElement>(null)
 
@@ -92,12 +95,16 @@ function Canva() {
     const { x, y } = canvaPos
     
     if (settings.pointerDown) {
-      toolWithoutGhost.includes(tool)
-        ? toolFunctions[tool]({ canvaRef, eraser, settings, x, y })
-        : toolGhostFunctions[tool]({ canvaRef: ghostRef, eraser, settings, x, y, holding })
+      if (toolWithoutGhost.includes(tool)) {
+        const event = toolFunctions[tool]({ canvaRef, eraser, settings, x, y })
+        socket?.emit(event, { eraser, settings, x, y })
+      } else {
+        toolGhostFunctions[tool]({ canvaRef: ghostRef, eraser, settings, x, y, holding })
+      }
     } else {
       if (pos.holding.x !== 0 && !toolWithoutGhost.includes(tool)) {
-        toolFunctions[tool]({ canvaRef, settings, x, y, holding, eraser })
+        const event = toolFunctions[tool]({ canvaRef, settings, x, y, holding, eraser })
+        socket?.emit(event, { eraser, settings, x, y, holding })
         updatePos({x:0, y: 0}, "holding")
       }
     }
@@ -137,6 +144,8 @@ function Canva() {
         border: `1px solid ${tool === Tool.eraser ? "#000000" : settings.color}`
       }}
     />
+
+    <UseEvents/>
 
     <div className="absolute border rounded p-2 flex gap-2 bg-cyan-950 text-white flex-col bottom-0 mb-5">
 

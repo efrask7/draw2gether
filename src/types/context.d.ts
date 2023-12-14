@@ -1,5 +1,6 @@
 import { MutableRefObject, RefObject } from "react"
 import { Tool } from "./tool"
+import { Socket } from "socket.io-client"
 
 type TPos = {
   x: number
@@ -19,4 +20,10 @@ type TCanvaContext = {
   tool: Tool,
   selectTool: (tool: Tool) => void
 
+}
+
+type TSocketContext = {
+  socket: Socket | null
+  disconnect: () => void
+  connect: () => void
 }
