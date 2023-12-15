@@ -6,7 +6,9 @@ import { io } from "socket.io-client"
 const SocketContext = createContext<TSocketContext>({
   socket: null,
   connect: () => {},
-  disconnect: () => {}
+  disconnect: () => {},
+  username: "",
+  setUsername: () => {}
 })
 
 function useSocket() {
@@ -18,6 +20,7 @@ function useSocket() {
 function SocketProvider({ children }: PropsWithChildren) {
   
   const [socket, setSocket] = useState<TSocketContext["socket"]>(null)
+  const [username, setUsername] = useState("")
 
   function connect() {
     const socketConn = io(`${window.location.protocol}//${window.location.hostname}:4444`)
@@ -45,7 +48,9 @@ function SocketProvider({ children }: PropsWithChildren) {
       value={{
         socket,
         connect,
-        disconnect
+        disconnect,
+        username,
+        setUsername
       }}
     >
       {children}

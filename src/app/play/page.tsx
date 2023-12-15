@@ -3,14 +3,17 @@ import Canva from "@/components/Canva"
 import ToolBar from "@/components/ToolBar"
 import { useSocket } from "@/context/SocketContext"
 import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 function Game() {
 
-  const { connect } = useSocket()
+  const { username, socket } = useSocket()
+  const router = useRouter()
+
 
   useEffect(() => {
-    connect()
-  }, [])
+    if (!username || !socket?.connected) router.push("/")
+  }, [username, socket])
 
   return (
     <div

@@ -26,4 +26,6 @@ type TSocketContext = {
   socket: Socket | null
   disconnect: () => void
   connect: () => void
+  username: string
+  setUsername: (username: string) => void
 }

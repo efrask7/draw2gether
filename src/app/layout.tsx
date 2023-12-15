@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { SocketProvider } from '@/context/SocketContext'
+import SocketStatus from '@/components/SocketStatus'
 
 export const metadata: Metadata = {
   title: 'Draw2Gether',
@@ -19,6 +20,8 @@ export default function RootLayout({
       >
         <SocketProvider>
           {children}
+
+          <SocketStatus/>
         </SocketProvider>
       </body>
 
