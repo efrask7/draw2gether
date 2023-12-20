@@ -7,4 +7,9 @@ enum Tool {
   circle = "Circulo"
 }
 
-export { Tool }
+const toolCursorShow: Tool[] = [
+  Tool.pencil,
+  Tool.eraser
+]
+
+export { Tool, toolCursorShow }

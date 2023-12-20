@@ -17,8 +17,16 @@ function drawPoint({ canvaRef, x, y, eraser, settings }: IDrawProps) {
     const canva = canvaRef.current.getContext("2d") as CanvasRenderingContext2D
     const { size, color } = settings
 
-    canva.fillStyle = eraser ? "#ffffff" : color
-    canva.fillRect(x, y, size, size)
+    canva.beginPath()
+    canva.lineWidth = size
+    canva.lineJoin = canva.lineCap = "round"
+    canva.strokeStyle = eraser ? "#ffffff" : color
+    // canva.moveTo(x, y)
+    canva.lineTo(x, y)
+    canva.stroke()
+
+    // canva.fillStyle = eraser ? "#ffffff" : color
+    // canva.fillRect(x, y, size, size)
   }
 }
 
@@ -30,6 +38,8 @@ function drawLine({ canvaRef, x, y, holding: holdClient, settings }: IDrawProps)
     const holding = holdClient as TPos
 
     canva.beginPath()
+    canva.lineJoin = "miter"
+    canva.lineCap = "butt"
     canva.moveTo(holding.x, holding.y)
     canva.lineTo(x + size, y + size/2)
     canva.strokeStyle = color

@@ -5,7 +5,7 @@ import { useSocket } from "@/context/SocketContext"
 import UseEvents from "@/events/SocketEvents"
 import { resetGhostCanva } from "@/tools/drawGhost"
 import { toolFunctions, toolGhostFunctions, toolWithoutGhost } from "@/tools/functions"
-import { Tool } from "@/types/tool"
+import { Tool, toolCursorShow } from "@/types/tool"
 import { LegacyRef, MouseEvent, RefObject, useEffect, useRef } from "react"
 
 function Canva() {
@@ -26,8 +26,8 @@ function Canva() {
     const offsetSize = settings.size / 2
 
     return {
-      x: (x - leftCanva) - offsetSize,
-      y: (y - topCanva) - offsetSize,
+      x: (x - leftCanva),
+      y: (y - topCanva),
       offset: offsetSize
     }
   }
@@ -82,7 +82,7 @@ function Canva() {
   }
 
   function getMouseToolDisplay() {
-    if (tool === Tool.mouse) return false
+    if (!toolCursorShow.includes(tool)) return false
 
     return settings.hover
   }
@@ -108,7 +108,7 @@ function Canva() {
         updatePos({x:0, y: 0}, "holding")
       }
     }
-  }, [settings, tool, pos])
+  }, [settings, tool, pos, canva, socket, updatePos])
   
   return (
     <>
@@ -116,7 +116,10 @@ function Canva() {
       <canvas
         width={800}
         height={600}
-        className={`border rounded bg-white ${tool !== Tool.mouse && "cursor-none"}`}
+        className={`border rounded bg-white`}
+        style={{
+          cursor: (tool === Tool.mouse || toolCursorShow.includes(tool)) ? "none" : "crosshair"
+        }}
         ref={canva as LegacyRef<HTMLCanvasElement>}
         onMouseMove={handleMouseMove}
         onPointerUp={handlePointerUp}
@@ -141,7 +144,8 @@ function Canva() {
         width: settings.size + "px",
         height: settings.size + "px",
         display: getMouseToolDisplay() ? "inline" : "none",
-        border: `1px solid ${tool === Tool.eraser ? "#000000" : settings.color}`
+        border: `1px solid ${tool === Tool.eraser ? "#000000" : settings.color}`,
+        borderRadius: (tool === Tool.pencil || tool === Tool.eraser) ? "100%" : "0"
       }}
     />
 
