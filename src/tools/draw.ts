@@ -17,16 +17,16 @@ function drawPoint({ canvaRef, x, y, eraser, settings }: IDrawProps) {
     const canva = canvaRef.current.getContext("2d") as CanvasRenderingContext2D
     const { size, color } = settings
 
-    canva.beginPath()
-    canva.lineWidth = size
-    canva.lineJoin = canva.lineCap = "round"
-    canva.strokeStyle = eraser ? "#ffffff" : color
-    // canva.moveTo(x, y)
-    canva.lineTo(x, y)
-    canva.stroke()
+    // canva.beginPath()
+    // canva.lineWidth = size
+    // canva.lineJoin = canva.lineCap = "round"
+    // canva.strokeStyle = eraser ? "#ffffff" : color
+    // // canva.moveTo(x, y)
+    // canva.lineTo(x, y)
+    // canva.stroke()
 
-    // canva.fillStyle = eraser ? "#ffffff" : color
-    // canva.fillRect(x, y, size, size)
+    canva.fillStyle = eraser ? "#ffffff" : color
+    canva.fillRect(x, y, size, size)
   }
 }
 

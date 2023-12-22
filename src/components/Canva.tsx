@@ -26,8 +26,8 @@ function Canva() {
     const offsetSize = settings.size / 2
 
     return {
-      x: (x - leftCanva),
-      y: (y - topCanva),
+      x: (x - leftCanva) - offsetSize,
+      y: (y - topCanva) - offsetSize,
       offset: offsetSize
     }
   }
@@ -87,7 +87,16 @@ function Canva() {
     return settings.hover
   }
 
+  function getCursor() {
+    if (!toolCursorShow.includes(tool) && tool !== Tool.mouse) return "crosshair"
+    if (toolCursorShow.includes(tool)) return "none"
+    return "default"
+  }
+
   useEffect(() => {
+
+    if (tool === Tool.mouse) return
+
     const canvaRef = canva as RefObject<HTMLCanvasElement>
     const ghostRef = ghostCanva as RefObject<HTMLCanvasElement>
     const eraser = tool === Tool.eraser
@@ -96,14 +105,14 @@ function Canva() {
     
     if (settings.pointerDown) {
       if (toolWithoutGhost.includes(tool)) {
-        const event = toolFunctions[tool]({ canvaRef, eraser, settings, x, y })
+        const event = toolFunctions[tool as keyof typeof toolFunctions]({ canvaRef, eraser, settings, x, y })
         socket?.emit(event, { eraser, settings, x, y })
       } else {
-        toolGhostFunctions[tool]({ canvaRef: ghostRef, eraser, settings, x, y, holding })
+        toolGhostFunctions[tool as keyof typeof toolGhostFunctions]({ canvaRef: ghostRef, eraser, settings, x, y, holding })
       }
     } else {
       if (pos.holding.x !== 0 && !toolWithoutGhost.includes(tool)) {
-        const event = toolFunctions[tool]({ canvaRef, settings, x, y, holding, eraser })
+        const event = toolFunctions[tool as keyof typeof toolFunctions]({ canvaRef, settings, x, y, holding, eraser })
         socket?.emit(event, { eraser, settings, x, y, holding })
         updatePos({x:0, y: 0}, "holding")
       }
@@ -118,7 +127,7 @@ function Canva() {
         height={600}
         className={`border rounded bg-white`}
         style={{
-          cursor: (tool === Tool.mouse || toolCursorShow.includes(tool)) ? "none" : "crosshair"
+          cursor: getCursor()
         }}
         ref={canva as LegacyRef<HTMLCanvasElement>}
         onMouseMove={handleMouseMove}
@@ -145,7 +154,7 @@ function Canva() {
         height: settings.size + "px",
         display: getMouseToolDisplay() ? "inline" : "none",
         border: `1px solid ${tool === Tool.eraser ? "#000000" : settings.color}`,
-        borderRadius: (tool === Tool.pencil || tool === Tool.eraser) ? "100%" : "0"
+        // borderRadius: (tool === Tool.pencil || tool === Tool.eraser) ? "100%" : "0"
       }}
     />
 

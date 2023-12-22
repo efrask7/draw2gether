@@ -19,7 +19,6 @@ type TCanvaContext = {
   updatePos: (pos: TPos, type: keyof TCanvaContext["pos"]) => void
   tool: Tool,
   selectTool: (tool: Tool) => void
-
 }
 
 type TSocketContext = {

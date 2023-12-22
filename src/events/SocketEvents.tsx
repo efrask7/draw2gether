@@ -2,7 +2,8 @@
 import { UseCanva } from "@/context/CanvaContext"
 import { useSocket } from "@/context/SocketContext"
 import { IDrawProps, drawCircle, drawLine, drawPoint, drawRect } from "@/tools/draw"
-import { RefObject, useEffect } from "react"
+import { setImageToCanva } from "@/tools/functions"
+import { RefObject, useEffect, useState } from "react"
 
 type TSocketEvent = {
   [event: string]: () => void
@@ -20,9 +21,15 @@ function UseEvents() {
  
   const { canva } = UseCanva()
   const { socket } = useSocket()
+  const [firstLoad, setFirstLoad] = useState(true)
 
   useEffect(() => {
     if (socket && canva) {
+
+      if (firstLoad) {
+        socket.emit("canvas:init")
+        setFirstLoad(false)
+      }
 
       const fromMyself = (id: string) => id === socket.id
 
@@ -46,17 +53,23 @@ function UseEvents() {
         if (fromMyself(props.from)) return
         drawCircle({ ...props, canvaRef })
       })
+
+      socket.on("canvas:init", (data: string) => {
+        setImageToCanva(canvaRef, data)
+        console.log(data)
+      })
     }
 
     return () => {
-      if (socket && canva) {
+      if (socket) {
         socket.off("canvas:draw")
         socket.off("canvas:draw_line")
         socket.off("canvas:draw_rect")
         socket.off("canvas:draw_circle")
+        socket.off("canvas:init")
       }
     }
-  }, [socket, canva])
+  }, [socket, canva, firstLoad])
   
   return <></>
 }

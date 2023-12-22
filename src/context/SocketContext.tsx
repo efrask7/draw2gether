@@ -23,7 +23,9 @@ function SocketProvider({ children }: PropsWithChildren) {
   const [username, setUsername] = useState("")
 
   function connect() {
-    const socketConn = io(`${window.location.protocol}//${window.location.hostname}:4444`)
+    const socketConn = io(`${window.location.protocol}//${window.location.hostname}:4444`, {
+      reconnection: false,
+    })
 
     socketConn.on("connect", () => {
       setSocket(socketConn)
