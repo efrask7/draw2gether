@@ -1,3 +1,5 @@
+import ChatEvents from "@/events/ChatEvents"
+
 type TMessage = {
   message: string
   author: string
@@ -8,27 +10,31 @@ type TMessage = {
 function Message({ message, author, color = "#eee" }: TMessage) {
   return (
     <div
-      className="flex gap-1"
+      className="flex gap-1 break-all size-full flex-wrap"
       style={{
         color
       }}
     >
-      <p className="font-bold">{author}:</p>
+      <p className="font-bold break-none">{author}:</p>
       <span>{message}</span>
     </div>
   )
 }
 
 function ChatMessages() {
+
+  const { messages } = ChatEvents()
+
   return (
     <div
       className="
-        bg-indigo-800 h-full rounded p-1.5
+        size-full rounded p-1.5
         flex flex-col gap-1 justify-end 
         divide-y divide-gray-900
+        overflow-y-auto
       "
     >
-      <Message
+      {/* <Message
         message="Hola"
         author="Juan"
       />
@@ -42,9 +48,21 @@ function ChatMessages() {
       <Message
         message="Ho"
         author="XD"
-      />
+      /> */}
+
+      {
+        messages.map((message, i) => (
+          <Message
+            message={message.message}
+            author={message.from}
+            color={message.color}
+            key={i}
+          />
+        ))
+      }
     </div>
   )
 }
 
+export type { TMessage }
 export default ChatMessages

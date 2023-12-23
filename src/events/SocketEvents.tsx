@@ -20,14 +20,14 @@ interface IEventProps extends Omit<IDrawProps, "canvaRef"> {
 function UseEvents() {
  
   const { canva } = UseCanva()
-  const { socket } = useSocket()
+  const { socket, username } = useSocket()
   const [firstLoad, setFirstLoad] = useState(true)
 
   useEffect(() => {
-    if (socket && canva) {
+    if (socket && canva?.current) {
 
       if (firstLoad) {
-        socket.emit("canvas:init")
+        socket.emit("canvas:init", username)
         setFirstLoad(false)
       }
 
@@ -69,7 +69,7 @@ function UseEvents() {
         socket.off("canvas:init")
       }
     }
-  }, [socket, canva, firstLoad])
+  }, [socket, canva, firstLoad, username])
   
   return <></>
 }

@@ -43,7 +43,7 @@ function UseChat() {
         </p>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-auto bg-indigo-800 rounded">
         <ChatMessages/>
       </div>
 

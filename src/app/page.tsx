@@ -4,6 +4,10 @@ import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 import { BsBrushFill, BsCheckLg, BsPersonFill } from "react-icons/bs"
 
+const blockedUsername = [
+  "server"
+]
+
 export default function Home() {
 
   const router = useRouter()
@@ -13,11 +17,16 @@ export default function Home() {
   const [inputFocus, setInputFocus] = useState(false)
   const [inputUser, setInputUser] = useState("")
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [errorInput, setErrorInput] = useState("")
 
   function handleSubmit(ev: FormEvent) {
     ev.preventDefault()
 
     if (!inputUser) return
+    if (blockedUsername.includes(inputUser.toLowerCase())) {
+      setErrorInput("Usuario no permitido")
+      return
+    }
     
     setUsername(inputUser)
     setFormSubmitted(true)
@@ -38,7 +47,7 @@ export default function Home() {
         clearTimeout(timeout)
       }
     }
-  }, [socket, formSubmitted])
+  }, [socket, formSubmitted, router])
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -82,7 +91,10 @@ export default function Home() {
             onFocus={() => setInputFocus(true)}
             onBlur={() => setInputFocus(false)}
             value={inputUser}
-            onChange={(ev) => setInputUser(ev.target.value)}
+            onChange={(ev) => {
+              setInputUser(ev.target.value)
+              setErrorInput("")
+            }}
           />
           <div
             className={`px-2 text-green-700 ${!formSubmitted && "hidden"}`}
@@ -90,6 +102,15 @@ export default function Home() {
             <BsCheckLg/>
           </div>
         </div>
+
+        <div>
+          <p
+            className="text-red-600 text-sm font-sans"
+          >
+            {errorInput}
+          </p>
+        </div>
+
         <div>
           <button 
             type="submit"
