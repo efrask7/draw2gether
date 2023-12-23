@@ -56,7 +56,6 @@ function UseEvents() {
 
       socket.on("canvas:init", (data: string) => {
         setImageToCanva(canvaRef, data)
-        console.log(data)
       })
     }
 

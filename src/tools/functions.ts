@@ -26,12 +26,10 @@ const toolGhostFunctions: { [key in TToolWithGhost]: (props: IDrawProps) => void
 }
 
 function setImageToCanva(canva: RefObject<HTMLCanvasElement>, data: string) {
-  console.log("Canva ctx", canva.current)
   if (canva.current) {
     const ctx = canva.current.getContext("2d") as CanvasRenderingContext2D
     const image = new Image(800, 600)
     image.src = data
-    console.log("Image", image)
     image.onload = () => {
       ctx.drawImage(image, 0, 0)
     }

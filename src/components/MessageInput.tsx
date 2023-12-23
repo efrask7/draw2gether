@@ -21,7 +21,7 @@ function MessageInput() {
   const [inputActive, setInputActive] = useState(false)
   const [messageData, setMessageData] = useState({
     message: "",
-    color: "#eee"
+    color: "#eeeeee"
   })
   
   function updateMessageData(data: keyof typeof messageData, value: string) {
@@ -36,6 +36,9 @@ function MessageInput() {
 
   function handleSubmit(ev: FormEvent) {
     ev.preventDefault()
+
+    if (!messageData.message) return
+
     sendMessage()
     updateMessageData("message", "")
   }
