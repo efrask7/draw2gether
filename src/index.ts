@@ -19,8 +19,14 @@ const io = new Server(server, {
 
 io.on("connection", socket => {
   console.log("New connection", socket.id)
-  socket.on("canvas:init", () => {
+  
+  socket.on("canvas:init", user => {
     socket.emit("canvas:init", getCanvaImage())
+    io.emit("chat:join", {
+      message: `${user} se ha conectado`,
+      color: "#999999",
+      from: "Server"
+    })
   })
 
   canvasEventsLabel.forEach(event => {
@@ -35,7 +41,6 @@ io.on("connection", socket => {
   })
 
   socket.on("chat:message", (data: TChatMessage) => {
-    console.log("New message", data)
     io.emit("chat:message", data)
   })
 
