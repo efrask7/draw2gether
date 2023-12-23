@@ -23,22 +23,6 @@ io.on("connection", socket => {
     socket.emit("canvas:init", getCanvaImage())
   })
 
-  // socket.on("canvas:draw", (info: IDrawProps) => {
-  //   io.emit("canvas:draw", { ...info, from: socket.id })
-  // })
-
-  // socket.on("canvas:draw_line", (info: IDrawProps) => {
-  //   io.emit("canvas:draw_line", { ...info, from: socket.id })
-  // })
-
-  // socket.on("canvas:draw_rect", (info: IDrawProps) => {
-  //   io.emit("canvas:draw_rect", { ...info, from: socket.id })
-  // })
-
-  // socket.on("canvas:draw_circle", (info: IDrawProps) => {
-  //   io.emit("canvas:draw_circle", { ...info, from: socket.id })
-  // })
-
   canvasEventsLabel.forEach(event => {
     socket.on(event, (data) => {
       canvasEvents[event]({
@@ -48,6 +32,11 @@ io.on("connection", socket => {
         props: data
       })
     })
+  })
+
+  socket.on("chat:message", (data: TChatMessage) => {
+    console.log("New message", data)
+    io.emit("chat:message", data)
   })
 
   socket.on("disconnect", reason => console.log("Disconnection", socket.id, reason))
