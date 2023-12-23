@@ -4,6 +4,7 @@ import ToolBar from "@/components/ToolBar"
 import { useSocket } from "@/context/SocketContext"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import UseChat from "@/components/UseChat"
 
 function Game() {
 
@@ -13,7 +14,7 @@ function Game() {
 
   useEffect(() => {
     if (!username || !socket?.connected) router.push("/")
-  }, [username, socket])
+  }, [username, socket, router])
 
   return (
     <div
@@ -21,8 +22,8 @@ function Game() {
     >
 
     <ToolBar/>
-      
     <Canva/>
+    <UseChat/>
 
     </div>
   )

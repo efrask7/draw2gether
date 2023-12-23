@@ -160,7 +160,7 @@ function Canva() {
 
     <UseEvents/>
 
-    <div className="absolute border rounded p-2 flex gap-2 bg-cyan-950 text-white flex-col bottom-0 mb-5">
+    {/* <div className="absolute border rounded p-2 flex gap-2 bg-cyan-950 text-white flex-col bottom-0 mb-5">
 
       <div className="flex gap-2">
         <p>Canva:</p>
@@ -179,7 +179,7 @@ function Canva() {
         <span>X: {pos.holding.x}</span>
         <span>Y: {pos.holding.y}</span>
       </div>
-    </div>
+    </div> */}
     </>
   )
 }

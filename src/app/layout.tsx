@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className='h-full'>
       <body
-        className='bg-gray-950 h-full'
+        className='bg-gray-950 h-full select-none overflow-hidden'
       >
         <SocketProvider>
           {children}
