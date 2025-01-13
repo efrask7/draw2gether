@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Draw2Gether
 
-## Getting Started
+Aplicación en tiempo real que permite a múltiples usuarios dibujar simultáneamente. Esta plataforma colaborativa está diseñada para facilitar la creatividad y la comunicación visual entre los usuarios, permitiéndoles trabajar juntos en un canvas compartido desde cualquier lugar del mundo. La aplicación no permite la creación de salas, sino que todos los usuarios comparten un único canvas.
 
-First, run the development server:
+La aplicación está desplegada y funcionando en [draw2gether.efrask.dev](https://draw2gether.efrask.dev).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tecnologías Utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Frontend:**
+  - Next.js
+  - React
+  - Tailwind CSS
+  - Socket.IO Client
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Backend:**
+  - Express
+  - Socket.IO
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Funcionalidades
 
-## Learn More
+- **Chat Grupal:** Los usuarios pueden comunicarse en tiempo real a través de un chat grupal.
+- **Canvas Compartido:** Los usuarios pueden dibujar en un canvas compartido utilizando diversas herramientas como lápiz, goma de borrar, línea, rectángulo y círculo.
+- **Persistencia del Canvas:** El estado del canvas se guarda en el servidor, permitiendo a los usuarios ver los cambios realizados por otros en tiempo real.
+- **Sincronización en Tiempo Real:** Los cambios en el canvas y el chat se sincronizan instantáneamente entre todos los usuarios conectados.
+- **Herramientas de Dibujo:** Incluye herramientas avanzadas de dibujo para mejorar la experiencia del usuario.
 
-To learn more about Next.js, take a look at the following resources:
+## Instalación y Ejecución
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clona el repositorio y cambia al branch `dev` para el frontend:
+   ```sh
+   git clone -b dev https://github.com/tu_usuario/draw2gether.git
+   ```
+2. Instala las dependencias del frontend con `npm install`.
+3. Ejecuta el servidor de desarrollo del frontend con `npm run dev`.
+4. En otra terminal, clona el repositorio y cambia al branch `dev_server` para el backend:
+   ```sh
+   git clone -b dev_server https://github.com/tu_usuario/draw2gether.git
+   ```
+5. Instala las dependencias del backend con `npm install`.
+6. Ejecuta el servidor de desarrollo del backend con `npm run dev`.
+7. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contribuciones
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que desees realizar.
